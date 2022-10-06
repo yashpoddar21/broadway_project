@@ -1,0 +1,120 @@
+<html>
+<script src='jquery.min.js'></script>
+<head>
+  <script>
+    let game_window;
+let AST_OBJECT_REFRESH_RATE = 15;
+var cometIdx = 1; 
+let cometSpawnRate = 1000;
+let constantSpeed = 5; 
+let cometSize = 62; 
+$(document).ready(function () {
+  //game_window = $(document.getElementsById('#game-window'))
+  game_window = $('.game-window');
+  startGame();
+  }
+);
+function addComet(){
+  var curPage = $(document.getElementById("#actual_game"));
+  //var curPage = ("#actual_game");
+  var commetDivStr = "<div id = 'r-" + cometIdx + "' class = 'comet'> <img src = 'covidstriod.png' /></div>"; 
+  game_window.append(commetDivStr);
+  //var curComet = $(document.getElementById('#r-' + cometIdx));
+  var curComet = $('#r-' + cometIdx);
+  var startingX, startingY, randomX, randomY  = 0; 
+  var choose =  Math.round(getRandomNumber(0, 3));
+  if(choose == 0){
+    startingX = 0; 
+    startingY = Math.round(getRandomNumber(cometSize, 658));
+  }
+  else if(choose == 1){
+    startingX = Math.round(getRandomNumber(cometSize, 1218)); 
+    startingY = 0;
+  }
+  else if(choose == 2){
+    startingX = 1218;
+    startingY = Math.round(getRandomNumber(0, 658));
+  }
+  else{
+    startingX = Math.round(getRandomNumber(0, 1218));
+    startingY = 658;
+  }
+  var xDiff = Math.round(getRandomNumber(1, constantSpeed - 1));
+  var yDiff = Math.pow((constantSpeed * constantSpeed) - (xDiff * xDiff), 0.5);
+  var choose1 =  Math.round(getRandomNumber(0, 3));
+  if(choose1 == 0 && choose != 1){
+    yDiff = yDiff * -1.0;
+  }
+  if(choose == 2){
+    constantSpeed = constantSpeed * -1;
+  }
+  if(choose == 3){
+      yDiff = yDiff * -1.0;
+  }
+  curComet.css("top", startingY);
+  curComet.css("left", startingX);
+  let cometUpdate = setInterval(function(){
+    curComet.css("left", parseInt(curComet.css("left")) + xDiff);
+    curComet.css("top", parseInt(curComet.css("top")) + yDiff);
+    if(parseInt(curComet.css("top")) < 0 || 
+            parseInt(curComet.css("top")) > 720 ||
+                  parseInt(curComet.css("left")) < 0 || 
+                    parseInt(curComet.css("left")) > 1280){
+                curComet.remove();
+                clearInterval(cometUpdate);
+    }
+  }, AST_OBJECT_REFRESH_RATE);
+  cometIdx++;
+}
+
+function startGame(){
+  var curPage = $("#actual_game");
+  var curComet = $(".comet"); 
+  let mainGame = setInterval(function(){
+    addComet(); 
+    }, cometSpawnRate);
+}
+
+function getRandomNumber(min, max){
+  return (Math.random() * (max - min)) + min;
+}
+
+  </script>
+  <style>
+    .game-window {
+  height: 720px;
+  width: 1280px;
+  float: left;
+  position: relative;
+}
+
+.comet {
+  position: absolute; 
+  height: 62px; 
+  width: 62px;
+  z-index: 35;
+}
+
+.comet img{
+  height: 62px;
+  width: 62px; 
+}
+
+#actual_game{
+  height: 720px;
+  width: 1280px;
+  background-color: black;
+  right: 0px;
+  top: 0px;
+  position: absolute;
+
+}
+  </style>
+</head>
+
+<body>
+<div id="actual_game"> 
+  <div class = "game-window">
+  </div> 
+</body>
+</html>
