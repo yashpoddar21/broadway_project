@@ -14,11 +14,10 @@ $(document).ready(function () {
   }
 );
 function addComet(){
-  var curPage = $(document.getElementById("#actual_game"));
   var commetDivStr = "<div id = 'r-" + cometIdx + "' class = 'comet'> <img src = 'covidstriod.png' /></div>"; 
   game_window.append(commetDivStr);
   var curComet = $('#r-' + cometIdx);
-  var startingX, startingY, randomX, randomY  = 0; 
+  var startingX, startingY  = 0; 
   var directionSpawn =  Math.round(getRandomNumber(0, 3));
   if(directionSpawn == 0){ //spawn from left side
     startingX = 0; 
@@ -114,3 +113,8 @@ function getRandomNumber(min, max){
   </div> 
 </body>
 </html>
+
+
+
+
+
